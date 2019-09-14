@@ -1,0 +1,75 @@
+Sat, 7/9/19 - Project Sunday
+
+OK, let's start Project Sunday. On a Saturday, I know.
+
+The idea here is to encourage myself to make use of the day I tend to spend doing nothing, hence the name of this project. I want to work on various things to expand my knowledge and skillset, and my first task will be to build an application to track these. The creation of this app will be an iterative process, and I can add in new features based on skills I want to learn.
+
+Core starting point requirements will be as follows:
+>Basic Node.js application
+>A database - MongoDB
+
+From here, I'd like to look into plugging in a React front-end, ideally running in Electron so I don't need to use a web browser.
+
+I'm aiming for a more iterative approach than I usually do - it doesn't have to be perfect from the get-go, and I'll probably learn more from refactoring than I will by spending time researching up-front.
+
+|==========|
+
+Sat, 7/9/19 - Data model
+
+I'm currently leaning towards a three-tiered data model, with top-level 'Projects' and then a semi-optional 'Folders' level below this. Individual 'Files' will be stored below this, and could be project logs/notes, feature suggestions, enhancements... There'll be some way of defining a type for these.
+
+There will always be a 'Default' Folder for newly created projects, so I'll make sure that gets auto-created when a project is added.
+
+Project CRUD ops finished; not sure about the 'Folder' terminology as this could be folders of grouped projects - what should this be called?
+
+I think I should be using subdocuments instead of relationships. This means that I essentially have one, nested, schema, rather than multiple schema files. I've just tried this and I can effectively retrieve the project, then push a record into a child folder and use 'save()' to update the record, but treat it as a POST.
+
+|==========|
+
+Sat, 7/9/19 - Data model continued
+
+Scrapped the above; the queries are going to be simpler if I use different models and reference them; it also disconnects the different parts of the data model, making it easier to edit in future. Created a new model and schema for 'Folder'.
+
+Ok, CRUD call for projects, folders, and tasks are up. Next, I need to test the relationship ('populate') functionality, and work on additional queries for grouping by parent element - that is, getting all folders under a project, and then all tasks under a folder.
+
+|==========|
+
+Sun, 8/9/19 - CRUD operation enhancements
+
+I think I want a standard query for 'getChildren' so I'll need to add these to the folder and task routers. Need a different convention as 'folder/:id' is already in use.
+
+REMEMBER THIS COMMAND
+/Users/toby/mongodb/bin/mongod --dbpath=/Users/toby/mongodb-data
+This starts the database
+
+Using 'req.query.[param]' I can retrieve parameters from query strings; I can use this to filter down retrieved folders and tasks - and should be able to make it useful as a universal search - req.query is just an object of query parameters and their values!
+
+Got this working - req.query gets passed into 'get all folders' as the query object. Might need some validation here later to ensure queries are valid, but I'm not planning on open access to querying so this should be fine for now.
+
+I think this puts the CRUD ops in a pretty good position; time to start thinking about a basic front-end.
+
+|==========|
+
+Sun, 8/9/19 - UI
+
+Ok, I want to use React for the UI so I need to brush up on the basics. It'd also be a good idea to connect up version control but I'm doing this on the train so will wait until I'm home to sync to Github.
+
+I've installed the react and react-dom packages, but then stumbled on create-react-app. This is running now and should give me a basic structure for the front-end. Then I just need to hook them up (I hope).
+
+|==========|
+
+Mon, 9/9/19 - UI continued
+
+I can't work out why React isn't working; I'm going to set up a separate directory, run create-react-app, and then if that's all good I'll move what I've already done into there. Might not be the most efficient way, but then at least the code I'm moving is the part I best understand.
+
+|==========|
+
+Sat, 14/9/19
+
+Running create-react-app in a subfolder works; I've now got a project folder with an express instance running on port 3001 (so it won't conflict with React), and a child 'client' folder which contains the React frontend. This gets booted from a separate terminal window, so I can just leave express running with nodemon and play around with React.
+
+I've added a 'proxy' command to the React app's package.json which points to the express server:
+
+"proxy": "http://localhost:3001",
+
+This should mean that any requests that aren't for static assets (images/css/index.html) get redirected to requests on the express server.
