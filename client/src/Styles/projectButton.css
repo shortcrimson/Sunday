@@ -1,0 +1,23 @@
+.projectButton {
+	font-family: Arial;
+	padding: 5px;
+	border: 1px solid var(--menu-border-color);
+	background-color: var(--menu-bg-color);
+	color: var(--menu-text-color);
+	transition: background-color 0.25s;
+
+}
+
+.projectButton:hover {
+	background-color: var(--menu-hl-color);
+}
+
+.projectButton > h4 {
+	margin: 0px;
+	padding-bottom: 5px;
+}
+
+.projectButton > p {
+	margin: 0px;
+	font-size: 0.8em;
+}

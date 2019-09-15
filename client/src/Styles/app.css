@@ -1,0 +1,12 @@
+:root {
+	--menu-border-color: #2E8077;
+	--menu-hl-color: #A8FFF6;
+	--menu-hl-color-2: #5CFFEF;
+	--menu-text-color: #54807B;
+	--menu-bg-color: #49CCBF;
+}
+
+h1 {
+	font-family: Arial;
+	color: var(--menu-text-color);
+}

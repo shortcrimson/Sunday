@@ -73,3 +73,5 @@ I've added a 'proxy' command to the React app's package.json which points to the
 "proxy": "http://localhost:3001",
 
 This should mean that any requests that aren't for static assets (images/css/index.html) get redirected to requests on the express server.
+
+I've got the structure set up now, and I've also backed up to  Github (finally). I can actually start working on a basic UI now. I'll start with a projects list, and look to make this expandable to show child folders and tasks.
