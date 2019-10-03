@@ -1,0 +1,15 @@
+.sidebar {
+	border: 2px solid var(--menu-border-color);
+	background-color: var(--menu-hl-color-2);
+
+}
+
+.sidebar > div {
+	margin: none;
+}
+
+.title {
+	font-family: var(--font-style);
+	color: var(--menu-text-color);
+	background-color: var(--menu-bg-color);
+}

@@ -1,10 +1,11 @@
 .projectButton {
-	font-family: Arial;
+	font-family: var(--font-style);
 	padding: 5px;
 	border: 1px solid var(--menu-border-color);
 	background-color: var(--menu-bg-color);
 	color: var(--menu-text-color);
 	transition: background-color 0.25s;
+	margin-bottom: 2px;
 
 }
 
@@ -14,7 +15,7 @@
 
 .projectButton > h4 {
 	margin: 0px;
-	padding-bottom: 5px;
+	/* padding-bottom: 5px; */
 }
 
 .projectButton > p {

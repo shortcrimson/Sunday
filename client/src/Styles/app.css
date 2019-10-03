@@ -1,12 +1,20 @@
 :root {
+	/*
 	--menu-border-color: #2E8077;
 	--menu-hl-color: #A8FFF6;
 	--menu-hl-color-2: #5CFFEF;
 	--menu-text-color: #54807B;
 	--menu-bg-color: #49CCBF;
+	*/
+	--menu-hl-color-2: #BF8A1F;
+	--menu-bg-color: #805C14;
+	--menu-text-color: #FFB829;
+	--menu-border-color: #402E0A;
+	--menu-hl-color: #E6A525;
+
+	--font-style: 'Courier New', Courier, monospace;
 }
 
-h1 {
-	font-family: Arial;
-	color: var(--menu-text-color);
+.contentPane {
+	border: 1px solid black;
 }

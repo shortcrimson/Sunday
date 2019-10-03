@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-
-import '../Styles/app.css';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import ProjectButton from './ProjectButton';
 import FolderList from './FolderList';
+import Sidebar from './Sidebar';
+
+import '../Styles/app.css';
 
 class App extends Component {
 
@@ -11,8 +15,10 @@ class App extends Component {
 		super(props);
 		this.state = {
 			title: 'Sunday',
+			openProject: '',
 			projects: [],
-			folders: []
+			folders: [],
+			tasks: []
 		};
 	}
 
@@ -24,17 +30,40 @@ class App extends Component {
 	}
 
 	projectOnClick(projectId) {
-		fetch('/folders?project=' + projectId)
-		.then(res => res.json())
-		.then(folders => this.setState({folders}));
+		if (this.state.openProject == projectId) {
+			this.setState({
+				openProject: '',
+				folders: []
+			});
+		} else {
+			fetch('/folders?project=' + projectId)
+			.then(res => res.json())
+			.then(folders => this.setState({
+				openProject: projectId,
+				folders
+			}));
+		}
 	}
 
 	render() {
 		return (
 			<div className="App">
-				<h1>{this.state.title}</h1>
-	{this.state.projects.map(prj => <ProjectButton key={prj._id} project={prj} onClick={() => this.projectOnClick(prj._id)}/>)}
-			<FolderList folders={this.state.folders}/>
+				<Container fluid={true}>
+					<Row noGutters={true}>
+						<Col md={3}>
+							<Sidebar 
+								title={this.state.title} 
+								projects={this.state.projects} 
+								folders={this.state.folders} 
+								onClick={(projectId) => this.projectOnClick(projectId)}
+								openProject={this.state.openProject}
+							/>
+						</Col>
+						<Col>
+							<p className="contentPane">{this.state.openProject}</p>
+						</Col>
+					</Row>
+				</Container>
 			</div>
 		)
 	}
