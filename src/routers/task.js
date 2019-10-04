@@ -1,5 +1,6 @@
 const express = require('express');
 const Task = require('../models/task');
+const Folder = require('../models/folder');
 const router = new express.Router();
 
 //Create
@@ -7,6 +8,10 @@ router.post('/tasks', async (req, res) => {
 	const task = new Task(req.body);
 	try {
 		await task.save();
+		if (task) {
+			const taskCount = await Task.countDocuments({folder: task.folder});
+			await Folder.findByIdAndUpdate(task.folder, {task_count: taskCount}, {new: true, runValidators: true });
+		}
 		res.status(201).send(task);
 	} catch(e) {
 		res.status(400).send(e);
@@ -49,7 +54,7 @@ router.patch('/tasks/:id', async (req, res) => {
 		const task = await Task.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true });
 		//Options - new returns the modified object rather than the original
 		if (!task) {
-			return rest.status(404).send();
+			return res.status(404).send();
 		}
 		res.send(task);
 	} catch (e) {
@@ -65,6 +70,8 @@ router.delete('/tasks/:id', async (req, res) => {
 		if (!task) {
 			return res.status(404).send();
 		}
+		const taskCount = await Task.countDocuments({folder: task.folder});
+		await Folder.findByIdAndUpdate(task.folder, {task_count: taskCount}, {new: true, runValidators: true });
 		res.send(task);
 	} catch (e) {
 		res.status(500).send(e);

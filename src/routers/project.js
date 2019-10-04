@@ -49,7 +49,7 @@ router.patch('/projects/:id', async (req, res) => {
 		const project = await Project.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true });
 		//Options - new returns the modified object rather than the original
 		if (!project) {
-			return rest.status(404).send();
+			return res.status(404).send();
 		}
 		res.send(project);
 	} catch (e) {

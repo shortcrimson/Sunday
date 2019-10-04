@@ -29,7 +29,8 @@ const Task = mongoose.model('Task', {
 	},
 	folder: {
 		type: Schema.Types.ObjectId,
-		ref: 'Folder'
+		ref: 'Folder',
+		required: true
 	}
 });
 

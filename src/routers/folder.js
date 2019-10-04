@@ -50,7 +50,7 @@ router.patch('/folders/:id', async (req, res) => {
 		const folder = await Folder.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true });
 		//Options - new returns the modified object rather than the original
 		if (!folder) {
-			return rest.status(404).send();
+			return res.status(404).send();
 		}
 		res.send(folder);
 	} catch (e) {
