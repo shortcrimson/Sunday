@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import '../Styles/projectButton.css';
 
-import FolderList from './FolderList';
+import FolderButton from './FolderButton';
 
 class ProjectButton extends Component {
 	render() {
@@ -12,8 +12,8 @@ class ProjectButton extends Component {
 					<h4>{this.props.project.name}</h4>
 					<p>{this.props.project.description}</p>
 				</div>
-				{this.props.openProject == this.props.project._id &&
-					<FolderList folders={this.props.folders} />
+				{(this.props.openProject == this.props.project._id) &&
+					this.props.folders.map(folder => <FolderButton folder={folder} />)
 				}
 			</React.Fragment>
 		);

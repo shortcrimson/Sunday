@@ -1,0 +1,25 @@
+.folderButton {
+	font-family: var(--font-style);
+	padding: 5px;
+	margin: 0px 2px 2px 2px;
+	background-color: var(--menu-bg-color);
+	color: var(--menu-text-color);
+	transition: background-color 0.25s;
+}
+
+.folderButton:hover {
+	text-decoration: underline;
+}
+
+.folderButton > h6 {
+	display: inline;
+}
+
+.taskCount {
+	float: right;
+	display: inline;
+	background-color: var(--menu-border-color);
+	border-radius: 10px;
+	padding: 0px 2px;
+}
+

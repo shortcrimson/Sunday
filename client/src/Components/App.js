@@ -3,8 +3,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import ProjectButton from './ProjectButton';
-import FolderList from './FolderList';
 import Sidebar from './Sidebar';
 
 import '../Styles/app.css';
