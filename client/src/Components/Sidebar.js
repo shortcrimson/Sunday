@@ -19,8 +19,9 @@ class Sidebar extends Component {
 							<ProjectButton 
 								key={prj._id} 
 								project={prj} 
-								onClick={() => this.props.onClick(prj._id)}
+								projectOnClick={() => this.props.projectOnClick(prj._id)}
 								folders={this.props.folders}
+								folderOnClick={(folderId) => this.props.folderOnClick(folderId)}
 								openProject={this.props.openProject}
 							/>
 					)}

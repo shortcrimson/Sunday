@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Sidebar from './Sidebar';
+import TaskList from './TaskList';
 
 import '../Styles/app.css';
 
@@ -14,6 +15,8 @@ class App extends Component {
 		this.state = {
 			title: 'Sunday',
 			openProject: '',
+			openFolder: '',
+			openTask: '',
 			projects: [],
 			folders: [],
 			tasks: []
@@ -28,17 +31,43 @@ class App extends Component {
 	}
 
 	projectOnClick(projectId) {
-		if (this.state.openProject == projectId) {
+		//Find the object of the selected project by _id element
+		const project = this.state.projects.find(prj => prj._id == projectId);
+		//If the currently active project is selected, or we can't find a project, clear the selection
+		if (this.state.openProject._id == projectId || !project) {
 			this.setState({
 				openProject: '',
 				folders: []
 			});
+		//Otherwise fetch folders
 		} else {
 			fetch('/folders?project=' + projectId)
 			.then(res => res.json())
 			.then(folders => this.setState({
-				openProject: projectId,
+				//Set the current open project
+				openProject: project,
 				folders
+			}));
+		}
+	}
+
+	folderOnClick(folderId) {
+		//Find the object of the selected folder by _id element
+		const folder = this.state.folders.find(fld => fld._id == folderId);
+		//If the currently active folder is selected, or we can't find a folder, clear the selection
+		if (this.state.openFolder._id == folderId || !folder) {
+			this.setState({
+				openFolder: '',
+				tasks: []
+			});
+		//Otherwise fetch tasks
+		} else {
+			fetch('/tasks?folder=' + folderId)
+			.then(res => res.json())
+			.then(tasks => this.setState({
+				//Set the current open folder
+				openFolder: folder,
+				tasks
 			}));
 		}
 	}
@@ -53,12 +82,19 @@ class App extends Component {
 								title={this.state.title} 
 								projects={this.state.projects} 
 								folders={this.state.folders} 
-								onClick={(projectId) => this.projectOnClick(projectId)}
-								openProject={this.state.openProject}
+								projectOnClick={(projectId) => this.projectOnClick(projectId)}
+								folderOnClick={(folderId) => this.folderOnClick(folderId)}
+								openProject={this.state.openProject._id}
+							/>
+						</Col>
+						<Col md={3}>
+							<TaskList 
+								taskList={this.state.tasks}
+								folder={this.state.openFolder.name}
 							/>
 						</Col>
 						<Col>
-							<p className="contentPane">{this.state.openProject}</p>
+							<p className="contentPane">{this.state.openProject._id}</p>
 						</Col>
 					</Row>
 				</Container>

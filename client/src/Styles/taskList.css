@@ -1,0 +1,23 @@
+.taskList {
+	font-family: var(--font-style);
+	border: 2px solid var(--menu-border-color);
+	background-color: var(--menu-hl-color-2);
+	margin-left: 5px;
+	color: var(--menu-bg-color);
+}
+
+.taskButton {
+	padding: 5px;
+	margin: 0px 2px 2px 2px;
+	background-color: var(--menu-bg-color);
+	color: var(--menu-text-color);
+}
+
+.taskButton:hover {
+	text-decoration: underline;
+}
+
+.taskList > h6 {
+	padding-left: 5px;
+	font-weight: bold;
+}

@@ -4,7 +4,6 @@
 	margin: 0px 2px 2px 2px;
 	background-color: var(--menu-bg-color);
 	color: var(--menu-text-color);
-	transition: background-color 0.25s;
 }
 
 .folderButton:hover {
