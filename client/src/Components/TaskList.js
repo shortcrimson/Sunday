@@ -8,20 +8,20 @@ class TaskList extends Component {
 		return (
 			<div className="taskList">
 				{
-					(!this.props.folder) && 
+					(this.props.noFolder) && 
 					<h6>Select a folder to see tasks here</h6>
 				}
 				{
-					(this.props.folder) && 
-					<h6>{this.props.folder}</h6>
+					(!this.props.noFolder) && 
+					<h6>{this.props.folder.name}</h6>
 				}
 				{
-					(this.props.folder && this.props.taskList.length == 0) &&
+					(!this.props.noFolder && this.props.taskList.length == 0) &&
 					<h6>No tasks in this folder!</h6>
 				}
 				{
-					(this.props.folder && this.props.taskList.length > 0) &&
-					this.props.taskList.map(task => <div className="taskButton"><p>{task.description}</p></div>)
+					(!this.props.noFolder && this.props.taskList.length > 0) &&
+					this.props.taskList.map(task => <div className="taskButton" onClick={() => this.props.taskOnClick(task._id)}><p>{task.description}</p></div>)
 				}
 			</div>
 		);

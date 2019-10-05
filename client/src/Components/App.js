@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 
 import Sidebar from './Sidebar';
 import TaskList from './TaskList';
+import ContentPane from './ContentPane';
 
 import '../Styles/app.css';
 
@@ -14,9 +15,9 @@ class App extends Component {
 		super(props);
 		this.state = {
 			title: 'Sunday',
-			openProject: '',
-			openFolder: '',
-			openTask: '',
+			openProject: {},
+			openFolder: {},
+			openTask: {},
 			projects: [],
 			folders: [],
 			tasks: []
@@ -25,9 +26,13 @@ class App extends Component {
 
 	componentDidMount() {
 		//Review this later - how to handle errors and make this easier to read?
-		fetch('/projects')
+		fetch('/all')
 		.then(res => res.json())
-		.then(projects => this.setState({projects}));
+		.then(response => this.setState({
+			projects: response.projects,
+			folders: response.folders,
+			tasks: response.tasks
+		}));
 	}
 
 	projectOnClick(projectId) {
@@ -35,19 +40,10 @@ class App extends Component {
 		const project = this.state.projects.find(prj => prj._id == projectId);
 		//If the currently active project is selected, or we can't find a project, clear the selection
 		if (this.state.openProject._id == projectId || !project) {
-			this.setState({
-				openProject: '',
-				folders: []
-			});
-		//Otherwise fetch folders
+			this.setState({openProject: {}});
 		} else {
-			fetch('/folders?project=' + projectId)
-			.then(res => res.json())
-			.then(folders => this.setState({
-				//Set the current open project
-				openProject: project,
-				folders
-			}));
+			//Set the currently open project
+			this.setState({openProject: project});
 		}
 	}
 
@@ -56,20 +52,31 @@ class App extends Component {
 		const folder = this.state.folders.find(fld => fld._id == folderId);
 		//If the currently active folder is selected, or we can't find a folder, clear the selection
 		if (this.state.openFolder._id == folderId || !folder) {
+			this.setState({openFolder: {}});
+		} else {
+			//Set the currently open folder
+			this.setState({openFolder: folder});
+		}
+	}
+
+	taskOnClick(taskId) {
+		//Find the object of the selected folder by _id element
+		const task = this.state.tasks.find(task => task._id == taskId);
+		//If the currently active folder is selected, or we can't find a folder, clear the selection
+		if (this.state.openTask._id == taskId || !task) {
 			this.setState({
-				openFolder: '',
-				tasks: []
+				openTask: {},
 			});
 		//Otherwise fetch tasks
 		} else {
-			fetch('/tasks?folder=' + folderId)
-			.then(res => res.json())
-			.then(tasks => this.setState({
-				//Set the current open folder
-				openFolder: folder,
-				tasks
-			}));
+			this.setState({
+				openTask: task
+			});
 		}
+	}
+
+	isEmptyObject(obj) {
+		return Object.keys(obj).length == 0;
 	}
 
 	render() {
@@ -79,22 +86,23 @@ class App extends Component {
 					<Row noGutters={true}>
 						<Col md={3}>
 							<Sidebar 
-								title={this.state.title} 
 								projects={this.state.projects} 
 								folders={this.state.folders} 
 								projectOnClick={(projectId) => this.projectOnClick(projectId)}
 								folderOnClick={(folderId) => this.folderOnClick(folderId)}
-								openProject={this.state.openProject._id}
+								openProjectId={this.state.openProject._id}
 							/>
 						</Col>
 						<Col md={3}>
 							<TaskList 
-								taskList={this.state.tasks}
-								folder={this.state.openFolder.name}
+								taskList={this.state.tasks.filter(task => task.folder == this.state.openFolder._id)}
+								folder={this.state.openFolder}
+								taskOnClick={(taskId) => this.taskOnClick(taskId)}
+								noFolder={this.isEmptyObject(this.state.openFolder)}
 							/>
 						</Col>
 						<Col>
-							<p className="contentPane">{this.state.openProject._id}</p>
+							<ContentPane task={this.state.openTask}/>
 						</Col>
 					</Row>
 				</Container>

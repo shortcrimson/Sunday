@@ -17,6 +17,7 @@
 
 .App {
 	background-color: grey;
+	min-height: 500px;
 }
 
 .contentPane {

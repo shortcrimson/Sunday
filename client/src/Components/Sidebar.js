@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ProjectButton from './ProjectButton';
-
+import FolderButton from './FolderButton';
 
 import '../Styles/sidebar.css';
 
@@ -10,29 +10,28 @@ class Sidebar extends Component {
 	render() {
 		return (
 			<div className="sidebar">
-				<div className="title">
-					<h4>{this.props.title}</h4>
-				</div>
-				<div>
-					{this.props.projects.map(
-						prj => 
-							<ProjectButton 
-								key={prj._id} 
-								project={prj} 
-								projectOnClick={() => this.props.projectOnClick(prj._id)}
-								folders={this.props.folders}
-								folderOnClick={(folderId) => this.props.folderOnClick(folderId)}
-								openProject={this.props.openProject}
+				{this.props.projects.map(prj => 
+					<React.Fragment>
+						<ProjectButton 
+							key={prj._id} 
+							project={prj} 
+							projectOnClick={() => this.props.projectOnClick(prj._id)}
+							folders={this.props.folders}
+							openProject={this.props.openProject}
+						/>
+						{this.props.openProjectId == prj._id && this.props.folders.filter(fld => (fld.project == prj._id)).map(fld =>
+							<FolderButton
+								key={fld._id}
+								folder={fld}
+								folderOnClick={() => this.props.folderOnClick(fld._id)}
 							/>
-					)}
-				</div>
-				<div>
-					
-				</div>
+						)}
+					</React.Fragment>
+				)}
 			</div>
 		);
 	}
 
 }
-
+//filter(fld => fld.project == prj._id)
 export default Sidebar;

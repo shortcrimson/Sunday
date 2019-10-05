@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(require('./routers/project'));
 app.use(require('./routers/folder'));
 app.use(require('./routers/task'));
+app.use(require('./routers/all'));
 
 //Server up
 app.listen(port, () => {

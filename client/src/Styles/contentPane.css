@@ -1,0 +1,7 @@
+.contentPane {
+	font-family: var(--font-style);
+	border: 2px solid var(--menu-border-color);
+	background-color: var(--menu-bg-color);
+	margin: 5px;
+	height: 100%;
+}
