@@ -14,7 +14,7 @@ class ContentPane extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (this.props.taskId !== prevProps.taskId && this.props.taskId !== undefined) {
 			fetch('/tasks/' + this.props.taskId)
 			.then(res => res.json())
@@ -26,6 +26,11 @@ class ContentPane extends Component {
 				priority: res.priority,
 				_id: res._id
 			}));
+		} else if (this.props.newTaskForFolder !== prevProps.newTaskForFolder && this.props.newTaskForFolder !== undefined) {
+			this.setState({
+				show: true,
+				new: true
+			});
 		}
 	}
 
@@ -41,6 +46,18 @@ class ContentPane extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+
+		console.log('Folder - ' + this.props.newTaskForFolder);
+
+		var updateObj = {
+			'description': this.state.description,
+			'task_type': this.state.task_type,
+			'priority': this.state.priority,
+		}
+		if (this.state.new && this.props.newTaskForFolder !== undefined) {
+			updateObj.folder = this.props.newTaskForFolder;
+		}
+
 		let url = '/tasks';
 		let method = '';
 		if (this.state.new) {
@@ -54,12 +71,7 @@ class ContentPane extends Component {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				'description': this.state.description,
-				'task_type': this.state.task_type,
-				'priority': this.state.priority,
-				'folder': '5d97339bd4601103099e1f96'
-			})
+			body: JSON.stringify(updateObj)
 		})
 		.then(res => res.json())
 		.then(res => console.log(res));
@@ -79,17 +91,17 @@ class ContentPane extends Component {
 
 	closePane() {
 		this.setState(this.getDefaultState());
+		this.props.closeFunction();
 	}
 
 	render() {
 		return (
 			<Container className={this.state.show ? 'contentPane' : 'contentPaneHidden'} fluid={true}>
-				<h4>{this.state.description}</h4>
 				<div className="closeButton" onClick={() => this.closePane()}>X</div>
 				<form onSubmit={this.handleSubmit}>
 					<div>
 						<label>Name:</label>
-						<input type="text" value={this.state.description} onChange={this.handleDescriptionChange}/>
+						<input type="text" className="nameField" value={this.state.description} onChange={this.handleDescriptionChange}/>
 					</div>
 					<div>
 						<label>Task Type:</label>

@@ -15,11 +15,13 @@
 	--font-style: 'Courier New', Courier, monospace;
 }
 
-.App {
+.app {
 	background-color: grey;
 	min-height: 500px;
 }
 
-.contentPane {
-	border: 1px solid black;
+.header {
+	border: 2px solid var(--menu-border-color);
+	background-color: var(--menu-hl-color-2);
+	margin-bottom: 2px;
 }

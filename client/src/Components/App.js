@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import Header from './Header';
 import Sidebar from './Sidebar';
 import TaskList from './TaskList';
 import ContentPane from './ContentPane';
@@ -20,7 +21,8 @@ class App extends Component {
 			openTask: {},
 			projects: [],
 			folders: [],
-			tasks: []
+			tasks: [],
+			newTaskForFolder: ''
 		};
 	}
 
@@ -70,9 +72,20 @@ class App extends Component {
 		//Otherwise fetch tasks
 		} else {
 			this.setState({
-				openTask: task
+				openTask: task,
+				newTaskForFolder: ''
 			});
 		}
+		setTimeout(() => {
+			console.log(this.state);
+		}, 1000);
+	}
+
+	toggleNewTaskClick(folderId) {
+		this.setState({
+			openTask: {},
+			newTaskForFolder: folderId
+		});
 	}
 
 	isEmptyObject(obj) {
@@ -81,8 +94,13 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="App">
+			<div className="app">
 				<Container fluid={true}>
+					<Row noGutters={true}>
+						<Col>
+						<Header />
+						</Col>
+					</Row>
 					<Row noGutters={true}>
 						<Col md={3}>
 							<Sidebar 
@@ -98,11 +116,16 @@ class App extends Component {
 								taskList={this.state.tasks.filter(task => task.folder === this.state.openFolder._id)}
 								folder={this.state.openFolder}
 								taskOnClick={(taskId) => this.taskOnClick(taskId)}
+								toggleNewTaskClick={(folderId) => this.toggleNewTaskClick(folderId)}
 								noFolder={this.isEmptyObject(this.state.openFolder)}
 							/>
 						</Col>
 						<Col>
-							<ContentPane taskId={this.state.openTask._id}/>
+							<ContentPane
+								taskId={this.state.openTask._id}
+								closeFunction={() => this.toggleNewTaskClick()}
+								newTaskForFolder={this.state.newTaskForFolder}
+								/>
 						</Col>
 					</Row>
 				</Container>

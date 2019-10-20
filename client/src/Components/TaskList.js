@@ -13,11 +13,14 @@ class TaskList extends Component {
 				}
 				{
 					(!this.props.noFolder) && 
-					<h6>{this.props.folder.name}</h6>
+					<React.Fragment>
+						<h6>{this.props.folder.name}</h6>
+						<button className="newTaskBtn" onClick={() => this.props.toggleNewTaskClick(this.props.folder._id)}>+</button>
+					</React.Fragment>
 				}
 				{
 					(!this.props.noFolder && this.props.taskList.length === 0) &&
-					<h6>No tasks in this folder!</h6>
+						<h6>No tasks in this folder!</h6>
 				}
 				{
 					(!this.props.noFolder && this.props.taskList.length > 0) &&
