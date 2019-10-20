@@ -37,9 +37,9 @@ class App extends Component {
 
 	projectOnClick(projectId) {
 		//Find the object of the selected project by _id element
-		const project = this.state.projects.find(prj => prj._id == projectId);
+		const project = this.state.projects.find(prj => prj._id === projectId);
 		//If the currently active project is selected, or we can't find a project, clear the selection
-		if (this.state.openProject._id == projectId || !project) {
+		if (this.state.openProject._id === projectId || !project) {
 			this.setState({openProject: {}});
 		} else {
 			//Set the currently open project
@@ -49,9 +49,9 @@ class App extends Component {
 
 	folderOnClick(folderId) {
 		//Find the object of the selected folder by _id element
-		const folder = this.state.folders.find(fld => fld._id == folderId);
+		const folder = this.state.folders.find(fld => fld._id === folderId);
 		//If the currently active folder is selected, or we can't find a folder, clear the selection
-		if (this.state.openFolder._id == folderId || !folder) {
+		if (this.state.openFolder._id === folderId || !folder) {
 			this.setState({openFolder: {}});
 		} else {
 			//Set the currently open folder
@@ -61,9 +61,9 @@ class App extends Component {
 
 	taskOnClick(taskId) {
 		//Find the object of the selected folder by _id element
-		const task = this.state.tasks.find(task => task._id == taskId);
+		const task = this.state.tasks.find(task => task._id === taskId);
 		//If the currently active folder is selected, or we can't find a folder, clear the selection
-		if (this.state.openTask._id == taskId || !task) {
+		if (this.state.openTask._id === taskId || !task) {
 			this.setState({
 				openTask: {},
 			});
@@ -76,7 +76,7 @@ class App extends Component {
 	}
 
 	isEmptyObject(obj) {
-		return Object.keys(obj).length == 0;
+		return Object.keys(obj).length === 0;
 	}
 
 	render() {
@@ -95,19 +95,19 @@ class App extends Component {
 						</Col>
 						<Col md={3}>
 							<TaskList 
-								taskList={this.state.tasks.filter(task => task.folder == this.state.openFolder._id)}
+								taskList={this.state.tasks.filter(task => task.folder === this.state.openFolder._id)}
 								folder={this.state.openFolder}
 								taskOnClick={(taskId) => this.taskOnClick(taskId)}
 								noFolder={this.isEmptyObject(this.state.openFolder)}
 							/>
 						</Col>
 						<Col>
-							<ContentPane task={this.state.openTask}/>
+							<ContentPane taskId={this.state.openTask._id}/>
 						</Col>
 					</Row>
 				</Container>
 			</div>
-		)
+		);
 	}
 
 }

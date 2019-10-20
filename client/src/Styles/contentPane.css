@@ -1,7 +1,25 @@
+:root {
+	--form-label-width: 100px;
+}
+
 .contentPane {
 	font-family: var(--font-style);
 	border: 2px solid var(--menu-border-color);
 	background-color: var(--menu-bg-color);
 	margin: 5px;
 	height: 100%;
+}
+
+.contentPaneHidden {
+	display: none;
+}
+
+.closeButton {
+	float: right;
+	border: 1px solid black;
+}
+
+label {
+	display: inline-block;
+	width: var(--form-label-width);
 }

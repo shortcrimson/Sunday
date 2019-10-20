@@ -16,12 +16,12 @@ class TaskList extends Component {
 					<h6>{this.props.folder.name}</h6>
 				}
 				{
-					(!this.props.noFolder && this.props.taskList.length == 0) &&
+					(!this.props.noFolder && this.props.taskList.length === 0) &&
 					<h6>No tasks in this folder!</h6>
 				}
 				{
 					(!this.props.noFolder && this.props.taskList.length > 0) &&
-					this.props.taskList.map(task => <div className="taskButton" onClick={() => this.props.taskOnClick(task._id)}><p>{task.description}</p></div>)
+					this.props.taskList.map(task => <div className="taskButton" key={task._id} onClick={() => this.props.taskOnClick(task._id)}><p>{task.description}</p></div>)
 				}
 			</div>
 		);

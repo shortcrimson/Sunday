@@ -11,7 +11,7 @@ class Sidebar extends Component {
 		return (
 			<div className="sidebar">
 				{this.props.projects.map(prj => 
-					<React.Fragment>
+					<React.Fragment key={prj._id}>
 						<ProjectButton 
 							key={prj._id} 
 							project={prj} 
@@ -19,7 +19,7 @@ class Sidebar extends Component {
 							folders={this.props.folders}
 							openProject={this.props.openProject}
 						/>
-						{this.props.openProjectId == prj._id && this.props.folders.filter(fld => (fld.project == prj._id)).map(fld =>
+						{this.props.openProjectId === prj._id && this.props.folders.filter(fld => (fld.project === prj._id)).map(fld =>
 							<FolderButton
 								key={fld._id}
 								folder={fld}
